@@ -22,12 +22,12 @@ def get_index_workspace(str_list):
 
 
 def get_index_src(str_list):
-    regForSrc = re.compile(r"src?-\W*")
+    regForSrc = re.compile(r"src")
     for i in range(len(str_list)):
         if regForSrc.match(str_list[i]):
             # print("src_idx: ", i)
             return i
-    return -1
+    return 0
 
 
 def get_index_java(str_list):
@@ -40,7 +40,10 @@ def get_index_java(str_list):
 
 
 def get_git_repo_name(str_list, ws_idx=2):
-    return str_list[ws_idx+1: ws_idx+2]
+    res = ""
+    for item in str_list[ws_idx + 1: ws_idx+2]:
+        res += item
+    return res
 
 
 def get_java_file_name(str_list, java_idx):

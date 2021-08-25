@@ -15,8 +15,11 @@ def spilt_by_path(str_):
 
 def get_index_workspace(str_list):
     regForWs = re.compile(r"workspace");
+    reg_new = re.compile(r"git-groups")
     for i in range(len(str_list)):
         if regForWs.match(str_list[i]):
+            return i
+        elif reg_new.match(str_list[i]):
             return i
     return -1
 

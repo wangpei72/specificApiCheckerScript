@@ -141,7 +141,7 @@ def check_file_for_api_allinone(file_dir):  # check单个java文件中的结果�
     # --------打印提示当前搜索的单个文件---------
     # print("searching in %s ..." % str_file)
     dic['git_name'] = git_name  # 可能有多行希望合并单元格
-    dic['tag'] = package_name + ":" + file_name
+    dic['tag'] = package_name + ":" + file_name + ".java"
     # dic['pkg_name'] = package_name
     # dic['file_name'] = file_name
     dic['ESD'] = hit_ESD[0]

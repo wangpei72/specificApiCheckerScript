@@ -26,8 +26,8 @@ def workflow_start(group_dir_, file_lists_dir_, xls_output_path='output.xls'):
 
 if __name__ == "__main__":
     cur_dir = os.path.dirname(os.path.realpath(__file__))
-    xls_out_path = "output_seller.xls"
-    file_lists_dir = os.path.join(cur_dir, "fileListsFromSeller")
-    group_dir = "/Users/wangpei/git-group-seller-project/"
+    xls_out_path = "output_sourcing2.xls"
+    file_lists_dir = os.path.join(cur_dir, "fileListsFromSourcing")
+    group_dir = "/Users/wangpei/git-group-sourcing-project/"
     workflow_start(group_dir, file_lists_dir, xls_out_path)
 

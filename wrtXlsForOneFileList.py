@@ -43,15 +43,10 @@ def wrt_res_list_to_excel_append(res_list=[], path='example1.xls'):
     if not res_list:
         print("搜索结果列表为空,直接退出写入文件操作")
         return
-    # col_list = []
     for item in res_list:
         v_list = []
         for k, v in item.items():
-            # print("k: ", k)
-            # print("v:", v)
             v_list.append(v)  # 将一个结果dic中的v append成一个v_list
-        # print(v_list)
-        # col_num = [0 for x in range(0, len(v_list))]  # 用以记录每行字符长度
         length = len(v_list)
         if v_list[length - 1] == 0:  # 如果是空记录 跳过不记录
             continue
@@ -62,19 +57,7 @@ def wrt_res_list_to_excel_append(res_list=[], path='example1.xls'):
                     new_ws.write(rows_exists, j + 1, repr(v_list[j]))
                 else:
                     new_ws.write(rows_exists, j + 1, v_list[j])  # 写数据
-                # if type(v_list[j]) is int:
-                #     col_num[j] = 11
-                # elif type(v_list[j]) is str:
-                #     col_num[j] = len(v_list[j])
-            # col_list.append(another_copy.copy(col_num))
             rows_exists += 1
-
-    # 获取每一列最大宽度
-    # col_max_num = get_max_col(col_list)
-    # print(col_list)
-    # print(col_max_num)
-    # for i in range(0, len(col_max_num)):
-    #     new_ws.col(i + 1).width = 256 * (col_max_num[i] + 2)
     new_wb.save(path)
     print("结果列表所有数据写入成功.")
 
@@ -86,18 +69,31 @@ def set_width_via_context(xls_path):  # 设置自适应列宽
     col_list = []
     row_num = ws.nrows
     col_num = ws.ncols
+
+    new_wb = copy(wb)
+    new_ws = new_wb.get_sheet(0)
+
+    style = xlwt.XFStyle()
+    pattern = xlwt.Pattern()
+    pattern.pattern = xlwt.Pattern.SOLID_PATTERN  # May be: NO_PATTERN, SOLID_PATTERN, or 0x00 through 0x12
+    pattern.pattern_fore_colour = 34  # 给背景颜色赋值
+    style.pattern = pattern
+
     for row in range(row_num):
         col_num_list = [0 for x in range(0, col_num)]
         for col in range(0, col_num):
             if type(ws.cell_value(row, col)) is int:
                 col_num_list[col] = 11
+                if ws.cell_value(row, col) != 0 and col != 0:
+                    new_ws.write(row, col, ws.cell_value(row, col), style)
             elif type(ws.cell_value(row, col)) is str:
                 col_num_list[col] = len(ws.cell_value(row, col))
+                if ws.cell_value(row, col) != '[]' and '[' in ws.cell_value(row, col):
+                    new_ws.write(row, col, ws.cell_value(row, col), style)
         col_list.append(another_copy.copy(col_num_list))
     # return col_list
     col_max_num = get_max_col(col_list)
-    new_wb = copy(wb)
-    new_ws = new_wb.get_sheet(0)
+
     for i in range(0, len(col_max_num)):
         new_ws.col(i).width = 256 * (col_max_num[i] + 2)
     new_wb.save(xls_path)
